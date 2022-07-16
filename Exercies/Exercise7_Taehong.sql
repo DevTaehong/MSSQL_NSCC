@@ -1,0 +1,95 @@
+--Exercise 7
+--1.
+SELECT *
+FROM Artist
+LEFT JOIN Album ON Artist.ArtistId = Album.ArtistId;
+
+--3.
+BEGIN TRANSACTION 
+	BEGIN TRY
+		DELETE FROM Artist WHERE ArtistId = 25;
+	END TRY
+	BEGIN CATCH
+		SELECT ERROR_NUMBER() AS ErrorNumber 
+			  ,ERROR_SEVERITY() AS ErrorSeverity
+			  ,ERROR_STATE() AS ErrorState 
+			  ,ERROR_PROCEDURE() AS ErrorProcedure 
+			  ,ERROR_LINE() AS ErrorLine 
+			  ,ERROR_MESSAGE() AS ErrorMessage;
+		IF @@TRANCOUNT>0
+			ROLLBACK TRANSACTION;
+	END CATCH;
+IF @@TRANCOUNT>0
+	COMMIT TRANSACTION;
+GO
+
+--4.
+SELECT *
+FROM Artist 
+WHERE ArtistId = 25;
+
+--5.
+BEGIN TRANSACTION 
+	BEGIN TRY
+		DELETE FROM Artist WHERE ArtistId = 1;
+	END TRY
+	BEGIN CATCH
+		SELECT ERROR_NUMBER() AS ErrorNumber 
+			  ,ERROR_SEVERITY() AS ErrorSeverity
+			  ,ERROR_STATE() AS ErrorState 
+			  ,ERROR_PROCEDURE() AS ErrorProcedure 
+			  ,ERROR_LINE() AS ErrorLine 
+			  ,ERROR_MESSAGE() AS ErrorMessage;
+		IF @@TRANCOUNT>0
+			ROLLBACK TRANSACTION;
+	END CATCH;
+IF @@TRANCOUNT>0
+	COMMIT TRANSACTION;
+GO
+
+--7.
+SELECT *
+FROM Artist
+WHERE ArtistId = 1;
+
+--9.
+BEGIN TRANSACTION 
+	BEGIN TRY
+		DELETE FROM Artist WHERE ArtistId = 1;
+	END TRY
+	BEGIN CATCH
+		THROW 51235, ' I raised my own error. This is the custom error message',1
+		IF @@TRANCOUNT>0
+			ROLLBACK TRANSACTION;
+	END CATCH;
+IF @@TRANCOUNT>0
+	COMMIT TRANSACTION;
+GO
+
+--10
+SELECT *
+FROM Artist
+WHERE ArtistId = 1;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
